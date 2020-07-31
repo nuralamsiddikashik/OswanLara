@@ -39,6 +39,19 @@
                   <a class="nav-link" href="#"><i class="fas fa-th-large"></i></a>
               </li>
           </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" class="d-inline-block" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-outline btn-primary">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+            </li>
+        </ul>
+
       </nav>
       <!-- /.navbar -->
 
@@ -55,38 +68,32 @@
               <nav class="mt-2">
                   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                       data-accordion="false">
-                      <li class="nav-item has-treeview menu-open">
-                          <a href="#" class="nav-link active">
-                              <i class="nav-icon fas fa-tachometer-alt"></i>
-                              <p>
-                                  Starter Pages
-                                  <i class="right fas fa-angle-left"></i>
-                              </p>
-                          </a>
-                          <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="#" class="nav-link active">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Active Page</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="#" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Inactive Page</p>
-                                  </a>
-                              </li>
-                          </ul>
-                      </li>
-                      <li class="nav-item">
-                          <a href="#" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
-                              <p>
-                                  Simple Link
-                                  <span class="right badge badge-danger">New</span>
-                              </p>
-                          </a>
-                      </li>
+
+
+                    <li class="nav-item has-treeview {{ request()->routeIs('admin.product-category.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link  {{ request()->routeIs('admin.product-category.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Category
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.product-category.index')}}" class="nav-link {{ request()->routeIs('admin.product-category.index') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Category Page</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.product-category.create')}}" class="nav-link {{ request()->routeIs('admin.product-category.create') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add New</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                      
                   </ul>
               </nav>
               <!-- /.sidebar-menu -->
@@ -134,6 +141,18 @@
   <script src="{{ asset('js/app.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset('assets/admin/js/adminlte.min.js') }}"></script>
+  <script>
+      
+      @if(session()->has('success'))
+        toaster('success',"{{ session()->get('success') }}")
+      @endif
+
+      @if(session()->has('warning'))
+        toaster('warning',"{{ session()->get('warning') }}")
+      @endif
+
+     
+  </script>
   @yield('scripts')
 </body>
 </html>
