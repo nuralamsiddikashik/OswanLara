@@ -29,8 +29,12 @@
                             </td>
                             <td>{{ $productCategory->name }}</td>
                             <td>{{ $productCategory->slug }}</td>
-                            <td>{{ $productCategory->status }}</td>
-                            <td>Delete</td>
+                            <td><span
+                                class="badge badge-@if($productCategory->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $productCategory->status_text }}</span>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-warning btn-sm" href="{{ route('admin.product-category.edit', $productCategory->id)}}"><i class="fas fa-edit"></i></a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
