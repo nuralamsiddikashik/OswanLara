@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
 use App\Models\Admin\ProductCategory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller {
 
@@ -15,6 +14,8 @@ class ProductCategoryController extends Controller {
 
         if ( request()->has( 'type' ) && request()->input( 'type' ) == 'trash' ) {
             $productCategories = ProductCategory::onlyTrashed()->orderBy( 'created_at', 'desc' )->paginate( 8 );
+        } elseif ( request()->has( 'type' ) && request()->input( 'type' ) == 'all' ) {
+            $productCategories = ProductCategory::withTrashed()->orderBy( 'created_at', 'desc' )->paginate( 8 );
         } else {
             $productCategories = ProductCategory::orderBy( 'created_at', 'desc' )->paginate( 8 );
         }
@@ -103,5 +104,12 @@ class ProductCategoryController extends Controller {
             return redirect()->route( 'admin.product-category.edit', $productCategory->id )->with( 'success', __( 'Product category updated.' ) );
         }
         return redirect()->back()->with( 'error', __( 'Please try again.' ) );
+    }
+
+    public function destroy( ProductCategory $productCategory ) {
+        if ( $productCategory->delete() ) {
+            return redirect()->route( 'admin.product-category.index' )->with( 'success', __( 'Product category delete' ) );
+        }
+        return redirect()->back()->with( 'error', __( 'Please try again' ) );
     }
 }
