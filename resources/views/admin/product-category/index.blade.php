@@ -20,18 +20,21 @@
             </div>
 
             <div class="card card-body">
+                <div class="bulk-action-area mb-3">
+                    <div class="bulk-select d-inline-block">
+                        <select name="dropdown-action" id="dropdown-action" class="form-control">
+                            <option>Select action</option>
+                            <option value="bulk-delete">Delete</option>
+                            <option value="bulk-force-delete">Permanent Delete</option>
+                            <option value="bulk-restore">Restore</option>
+                        </select>
+                    </div> 
+                    <button id="delete-action" class="btn btn-danger">{{ __('Submit')}}</button>
+                </div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <td></td>
-                            <td colspan="5">
-                                <button id="bulk-delete" type="submit" class="btn btn-danger">{{ __('Deleted Select')}}</button>
-                                <button id="bulk-force-delete" type="submit"
-                                class="btn btn-danger">{{ __('Permanently Delete selected') }}</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th></th>
+                            <th style="width:50px;"><input type="checkbox" id="select-all"></th>
                             <th>Thumbnail</th>
                             <th>Name</th>
                             <th>Slug</th>
@@ -42,7 +45,7 @@
                     <tbody>
                         @foreach($productCategories as $productCategory)
                         <tr>
-                            <th><input type="checkbox" class="bulk-cat-id" data-id="{{ $productCategory->id}}"></th>
+                            <th><input type="checkbox" class="bulk-item-id" data-id="{{ $productCategory->id}}"></th>
                             <td>
                                 @if($productCategory->thumbnail)
                                     <img height="40" src="{{ asset($productCategory->thumbnail)}}" alt="{{$productCategory->name}}">
@@ -96,49 +99,90 @@
 
 @section('scripts')
 <script>
-    (function($) {
+(function($) {
         $(document).ready(function() {
-            let cat_ids = []
-            $(document).on('click', '.bulk-cat-id', function() {
+            let item_ids = []
+            $(document).on('click', '.bulk-item-id', function() {
                 let data_id = $(this).data('id');
                 if($(this).prop('checked')) {
-                    if(!cat_ids.includes(data_id)) {
-                        cat_ids.push(data_id)
+                    if(!item_ids.includes(data_id)) {
+                        item_ids.push(data_id)
                     }
                 } else {
-                    if(cat_ids.includes(data_id)) {
-                        cat_ids = cat_ids.filter(element => element != data_id)
+                    if(item_ids.includes(data_id)) {
+                        item_ids = item_ids.filter(element => element != data_id)
                     }
                 }
+                console.log(item_ids)
                 
-                // console.log(cat_ids)
             })
-            $('#bulk-delete').on('click', function() {
-                if(cat_ids.length > 0) {
-                    axios.post("{{ route('admin.product-category.bulk_delete') }}", {
-                        cat_ids
+
+            // Multi select
+            $('#select-all').on('click', function() {
+                if($(this).prop('checked')) {
+                    $.each($('.bulk-item-id').prop('checked', 'checked'), function() {
+                        data_id = $(this).data('id')
+                        if(!item_ids.includes(data_id)) {
+                        item_ids.push(data_id)
+                    }
                     })
-                    .then(response => {
-                        if(response.data.message == 'success') {
-                            window.location.href = window.location.href
-                        }
-                    })
-                    .catch(error => console.log(error))
+                    console.log(item_ids)
+                } else  {
+                    $('.bulk-item-id').prop('checked', '');
+                    item_ids = []
+                    console.log(item_ids)
                 }
             })
-            $('#bulk-force-delete').on('click', function() {
-                if(cat_ids.length > 0) {
-                    axios.post("{{ route('admin.product-category.bulk_force_delete') }}", {
-                        cat_ids
-                    })
-                    .then(response => {
-                        if(response.data.message == 'success') {
-                            window.location.href = window.location.href
-                        }
-                    })
-                    .catch(error => console.log(error))
+
+            // Bulk action
+            $('#delete-action').on('click', function() {
+
+                if($('#dropdown-action').val() == 'bulk-delete') {
+                    
+                    if(item_ids.length > 0) {
+                        axios.post("{{ route('admin.product-category.bulk_delete') }}", {
+                            item_ids
+                        })
+                        .then(response => {
+                            if(response.data.message == 'success') {
+                                window.location.href = window.location.href
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    }
+                        
+                } else if($('#dropdown-action').val() == 'bulk-force-delete') {
+                    
+                    if(item_ids.length > 0) {
+                        axios.post("{{ route('admin.product-category.bulk_force_delete') }}", {
+                            item_ids
+                        })
+                        .then(response => {
+                            if(response.data.message == 'success') {
+                                window.location.href = window.location.href
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    }
+                    
+                } else if($('#dropdown-action').val() == 'bulk-restore') {
+                    
+                    if(item_ids.length > 0) {
+                        axios.post("{{ route('admin.product-category.bulk_restore') }}", {
+                            item_ids
+                        })
+                        .then(response => {
+                            if(response.data.message == 'success') {
+                                window.location.href = window.location.href
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    }
+                    
                 }
             })
+            
+            
         })
     })(jQuery)
 </script>

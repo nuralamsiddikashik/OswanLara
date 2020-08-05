@@ -148,8 +148,8 @@ class ProductCategoryController extends Controller {
     }
 
     public function bulk_delete( Request $request ) {
-        $cat_ids = $request->input( 'cat_ids' );
-        foreach ( $cat_ids as $id ) {
+        $item_ids = $request->input( 'item_ids' );
+        foreach ( $item_ids as $id ) {
             $productCategory = ProductCategory::find( $id );
             if ( $productCategory ) {
                 $productCategory->delete();
@@ -161,14 +161,27 @@ class ProductCategoryController extends Controller {
     }
 
     public function bulk_force_delete( Request $request ) {
-        $cat_ids = $request->input( 'cat_ids' );
-        foreach ( $cat_ids as $id ) {
+        $item_ids = $request->input( 'item_ids' );
+        foreach ( $item_ids as $id ) {
             $productCategory = ProductCategory::withTrashed()->find( $id );
             if ( $productCategory ) {
                 if ( $productCategory->thumbnail ) {
                     File::delete( $productCategory->thumbnail );
                 }
                 $productCategory->forceDelete();
+            }
+        }
+        return response()->json( [
+            'message' => 'success',
+        ] );
+    }
+
+    public function bulk_restore( Request $request ) {
+        $item_ids = $request->input( 'item_ids' );
+        foreach ( $item_ids as $id ) {
+            $productCategory = ProductCategory::withTrashed()->find( $id );
+            if ( $productCategory ) {
+                $productCategory->restore();
             }
         }
         return response()->json( [

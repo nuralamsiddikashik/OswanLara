@@ -26,6 +26,7 @@ Route::namespace ( 'Auth' )->group( function () {
 
 Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( function () {
     Route::middleware( 'auth' )->group( function () {
+        
         Route::get( '/', 'DashboardController@index' )->name( 'dashboard' );
         Route::get( '/dashboard', 'DashboardController@index' );
 
@@ -33,7 +34,9 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
         Route::post( 'product-category/{id}/restore', 'ProductCategoryController@restore' )->name( 'product-category.restore' );
         Route::post( 'product-category/{id}/force-delete', 'ProductCategoryController@forceDelete' )->name( 'product-category.force_delete' );
 
-        Route::post('product-category/bulk-delete', 'ProductCategoryController@bulk_delete')->name('product-category.bulk_delete');
-        Route::post('product-category/bulk-force-delete', 'ProductCategoryController@bulk_force_delete')->name('product-category.bulk_force_delete');
+        Route::post( 'product-category/bulk-delete', 'ProductCategoryController@bulk_delete' )->name( 'product-category.bulk_delete' );
+        Route::post( 'product-category/bulk-force-delete', 'ProductCategoryController@bulk_force_delete' )->name( 'product-category.bulk_force_delete' );
+
+        Route::post( 'product-category/bulk-restore', 'ProductCategoryController@bulk_restore' )->name( 'product-category.bulk_restore' );
     } );
 } );
