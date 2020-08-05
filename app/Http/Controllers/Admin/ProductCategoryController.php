@@ -115,7 +115,7 @@ class ProductCategoryController extends Controller {
 
     public function restore( $id ) {
 
-        $productCategory = ProductCategory::onlyTrashed()->findOrFail( $id );
+        $productCategory = ProductCategory::onlyTrashed()->find( $id );
 
         if ( $productCategory ) {
 
@@ -130,7 +130,7 @@ class ProductCategoryController extends Controller {
     }
 
     public function forceDelete( $id ) {
-        $productCategory = ProductCategory::onlyTrashed()->findOrFail( $id );
+        $productCategory = ProductCategory::onlyTrashed()->find( $id );
 
         if ( $productCategory ) {
 
@@ -145,5 +145,34 @@ class ProductCategoryController extends Controller {
         }
 
         return redirect()->back()->with( 'error', __( 'No product to delete' ) );
+    }
+
+    public function bulk_delete( Request $request ) {
+        $cat_ids = $request->input( 'cat_ids' );
+        foreach ( $cat_ids as $id ) {
+            $productCategory = ProductCategory::find( $id );
+            if ( $productCategory ) {
+                $productCategory->delete();
+            }
+        }
+        return response()->json( [
+            'message' => 'success',
+        ] );
+    }
+
+    public function bulk_force_delete( Request $request ) {
+        $cat_ids = $request->input( 'cat_ids' );
+        foreach ( $cat_ids as $id ) {
+            $productCategory = ProductCategory::withTrashed()->find( $id );
+            if ( $productCategory ) {
+                if ( $productCategory->thumbnail ) {
+                    File::delete( $productCategory->thumbnail );
+                }
+                $productCategory->forceDelete();
+            }
+        }
+        return response()->json( [
+            'message' => 'success',
+        ] );
     }
 }

@@ -23,6 +23,15 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <td></td>
+                            <td colspan="5">
+                                <button id="bulk-delete" type="submit" class="btn btn-danger">{{ __('Deleted Select')}}</button>
+                                <button id="bulk-force-delete" type="submit"
+                                class="btn btn-danger">{{ __('Permanently Delete selected') }}</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
                             <th>Thumbnail</th>
                             <th>Name</th>
                             <th>Slug</th>
@@ -33,6 +42,7 @@
                     <tbody>
                         @foreach($productCategories as $productCategory)
                         <tr>
+                            <th><input type="checkbox" class="bulk-cat-id" data-id="{{ $productCategory->id}}"></th>
                             <td>
                                 @if($productCategory->thumbnail)
                                     <img height="40" src="{{ asset($productCategory->thumbnail)}}" alt="{{$productCategory->name}}">
@@ -82,4 +92,54 @@
             
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    (function($) {
+        $(document).ready(function() {
+            let cat_ids = []
+            $(document).on('click', '.bulk-cat-id', function() {
+                let data_id = $(this).data('id');
+                if($(this).prop('checked')) {
+                    if(!cat_ids.includes(data_id)) {
+                        cat_ids.push(data_id)
+                    }
+                } else {
+                    if(cat_ids.includes(data_id)) {
+                        cat_ids = cat_ids.filter(element => element != data_id)
+                    }
+                }
+                
+                // console.log(cat_ids)
+            })
+            $('#bulk-delete').on('click', function() {
+                if(cat_ids.length > 0) {
+                    axios.post("{{ route('admin.product-category.bulk_delete') }}", {
+                        cat_ids
+                    })
+                    .then(response => {
+                        if(response.data.message == 'success') {
+                            window.location.href = window.location.href
+                        }
+                    })
+                    .catch(error => console.log(error))
+                }
+            })
+            $('#bulk-force-delete').on('click', function() {
+                if(cat_ids.length > 0) {
+                    axios.post("{{ route('admin.product-category.bulk_force_delete') }}", {
+                        cat_ids
+                    })
+                    .then(response => {
+                        if(response.data.message == 'success') {
+                            window.location.href = window.location.href
+                        }
+                    })
+                    .catch(error => console.log(error))
+                }
+            })
+        })
+    })(jQuery)
+</script>
 @endsection
