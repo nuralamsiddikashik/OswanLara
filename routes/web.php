@@ -24,11 +24,13 @@ Route::namespace ( 'Auth' )->group( function () {
     Route::post( '/logout', 'LogoutController@logout' )->name( 'logout' )->middleware( 'auth' );
 } );
 
-Route::prefix( 'admin' )->name('admin.')->namespace( 'Admin' )->group( function () {
+Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( function () {
     Route::middleware( 'auth' )->group( function () {
         Route::get( '/', 'DashboardController@index' )->name( 'dashboard' );
         Route::get( '/dashboard', 'DashboardController@index' );
 
         Route::resource( 'product-category', 'ProductCategoryController' );
+        Route::post( 'product-category/{id}/restore', 'ProductCategoryController@restore' )->name( 'product-category.restore' );
+        Route::post( 'product-category/{id}/force-delete', 'ProductCategoryController@forceDelete' )->name( 'product-category.force_delete' );
     } );
 } );

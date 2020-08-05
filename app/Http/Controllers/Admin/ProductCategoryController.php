@@ -112,4 +112,38 @@ class ProductCategoryController extends Controller {
         }
         return redirect()->back()->with( 'error', __( 'Please try again' ) );
     }
+
+    public function restore( $id ) {
+
+        $productCategory = ProductCategory::onlyTrashed()->findOrFail( $id );
+
+        if ( $productCategory ) {
+
+            if ( $productCategory->restore() ) {
+                return redirect()->route( 'admin.product-category.index' )->with( 'success', __( 'Product Category Restore' ) );
+            }
+            return redirect()->back()->with( 'error', __( 'Please try again' ) );
+
+        }
+
+        return redirect()->back()->with( 'error', __( 'No product to restore' ) );
+    }
+
+    public function forceDelete( $id ) {
+        $productCategory = ProductCategory::onlyTrashed()->findOrFail( $id );
+
+        if ( $productCategory ) {
+
+            if ( $productCategory->thumbnail ) {
+                File::delete( $productCategory->thumbnail );
+            }
+
+            if ( $productCategory->forceDelete() ) {
+                return redirect()->route( 'admin.product-category.index' )->with( 'success', __( 'Product category permanently delete' ) );
+            }
+            return redirect()->back()->with( 'error', __( 'Please try again' ) );
+        }
+
+        return redirect()->back()->with( 'error', __( 'No product to delete' ) );
+    }
 }

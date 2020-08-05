@@ -43,16 +43,36 @@
                             <td><span
                                 class="badge badge-@if($productCategory->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $productCategory->status_text }}</span>
                             </td>
+
                             <td>
                                 <a class="btn btn-outline-warning btn-sm" href="{{ route('admin.product-category.edit', $productCategory->id)}}"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.product-category.destroy',$productCategory->id)}}" class="d-inline-block" method="POST">
-                                    @csrf 
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+                               
+                                @if($productCategory->deleted_at !== null)
+                                    <form action="{{ route('admin.product-category.restore',$productCategory->id)}}" class="d-inline-block" method="POST">
+                                        @csrf 
 
+                                       
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa fa-history"></i>
+                                        </button>
+                                    </form>
+
+                                    <form action="{{ route('admin.product-category.force_delete',$productCategory->id)}}" class="d-inline-block" method="POST">
+                                        @csrf 
+                        
+                                        <button title="{{ __('Permanet Delete')}}" type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @else 
+                                    <form action="{{ route('admin.product-category.destroy',$productCategory->id)}}" class="d-inline-block" method="POST">
+                                        @csrf 
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                @endif 
                             </td>
                         </tr>
                         @endforeach
