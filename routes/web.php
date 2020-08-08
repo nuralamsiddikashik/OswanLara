@@ -26,7 +26,7 @@ Route::namespace ( 'Auth' )->group( function () {
 
 Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( function () {
     Route::middleware( 'auth' )->group( function () {
-        
+
         Route::get( '/', 'DashboardController@index' )->name( 'dashboard' );
         Route::get( '/dashboard', 'DashboardController@index' );
 
@@ -38,5 +38,14 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
         Route::post( 'product-category/bulk-force-delete', 'ProductCategoryController@bulk_force_delete' )->name( 'product-category.bulk_force_delete' );
 
         Route::post( 'product-category/bulk-restore', 'ProductCategoryController@bulk_restore' )->name( 'product-category.bulk_restore' );
+
+        // Brand Route Register
+
+        Route::resource( 'brand', 'BrandController' );
+        Route::post( 'brand/{id}/restore', 'BrandController@restore' )->name( 'brand.restore' );
+        Route::post( 'pbrand/{id}/force-delete', 'BrandController@force_delete' )->name( 'brand.force_delete' );
+        Route::post( 'brand/bulk-delete', 'BrandController@bulk_delete' )->name( 'brand.bulk_delete' );
+        Route::post( 'brand/bulk-force-delete', 'BrandController@bulk_force_delete' )->name( 'brand.bulk_force_delete' );
+        Route::post( 'brand/bulk-restore', 'BrandController@bulk_restore' )->name( 'brand.bulk_restore' );
     } );
 } );

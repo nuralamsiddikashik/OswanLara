@@ -11,11 +11,11 @@
             <div class="card-body">
                 <div class="btn-group mb-3">
                     <a href="{{ route('admin.product-category.index') . '?type=all' }}"
-                        class="btn btn-outline-dark {{ request()->get('type') == 'all' ? 'active' : ''  }}">{{ __('All') }}</a>
+                        class="btn btn-sm btn-outline-dark {{ request()->get('type') == 'all' ? 'active' : ''  }}">{{ __('All') }}</a>
                     <a href="{{ route('admin.product-category.index') }}"
-                        class="btn btn-outline-dark {{ request()->has('type') ? '' : 'active'  }}">{{ __('Active') }}</a>
+                        class="btn btn-sm btn-outline-dark {{ request()->has('type') ? '' : 'active'  }}">{{ __('Active') }}</a>
                     <a href="{{ route('admin.product-category.index') . '?type=trash' }}"
-                        class="btn btn-outline-dark {{ request()->get('type') == 'trash' ? 'active' : ''  }}">{{ __('Trashed') }}</a>
+                        class="btn btn-sm btn-outline-dark {{ request()->get('type') == 'trash' ? 'active' : ''  }}">{{ __('Trashed') }}</a>
                 </div>
             </div>
 
