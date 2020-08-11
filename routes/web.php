@@ -47,5 +47,17 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
         Route::post( 'brand/bulk-delete', 'BrandController@bulk_delete' )->name( 'brand.bulk_delete' );
         Route::post( 'brand/bulk-force-delete', 'BrandController@bulk_force_delete' )->name( 'brand.bulk_force_delete' );
         Route::post( 'brand/bulk-restore', 'BrandController@bulk_restore' )->name( 'brand.bulk_restore' );
+       
+
+        // Product Routes
+
+        Route::post( 'product/{id}/restore', 'ProductController@restore' )->name( 'product.restore' );
+        Route::post( 'pproduct/{id}/force-delete', 'ProductController@force_delete' )->name( 'product.force_delete' );
+        Route::post( 'product/bulk-delete', 'ProductController@bulk_delete' )->name( 'product.bulk_delete' );
+        Route::post( 'product/bulk-force-delete', 'ProductController@bulk_force_delete' )->name( 'product.bulk_force_delete' );
+        Route::post( 'product/bulk-restore', 'ProductController@bulk_restore' )->name( 'product.bulk_restore' );
+        Route::post( 'product/bulk-active', 'ProductController@bulk_active' )->name( 'product.bulk_active' );
+        Route::post( 'product/bulk-inactive', 'ProductController@bulk_inactive' )->name( 'product.bulk_inactive' );
+        Route::resource( 'product', 'ProductController' );
     } );
 } );

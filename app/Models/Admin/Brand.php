@@ -21,4 +21,8 @@ class Brand extends Model {
         $this->attributes['thumbnail'] = 'uploads/images/product-brands/' . $value;
     }
 
+    public function products() {
+        return $this->hasMany( Product::class );
+    }
+
 }
