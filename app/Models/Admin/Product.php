@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin\Gallery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,6 +28,10 @@ class Product extends Model {
 
     public function product_category() {
         return $this->belongsTo( ProductCategory::class );
+    }
+
+    public function galllery() {
+        return $this->hasOne( Gallery::class );
     }
 
 }

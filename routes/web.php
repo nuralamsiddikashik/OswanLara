@@ -47,7 +47,6 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
         Route::post( 'brand/bulk-delete', 'BrandController@bulk_delete' )->name( 'brand.bulk_delete' );
         Route::post( 'brand/bulk-force-delete', 'BrandController@bulk_force_delete' )->name( 'brand.bulk_force_delete' );
         Route::post( 'brand/bulk-restore', 'BrandController@bulk_restore' )->name( 'brand.bulk_restore' );
-       
 
         // Product Routes
 
@@ -59,5 +58,8 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
         Route::post( 'product/bulk-active', 'ProductController@bulk_active' )->name( 'product.bulk_active' );
         Route::post( 'product/bulk-inactive', 'ProductController@bulk_inactive' )->name( 'product.bulk_inactive' );
         Route::resource( 'product', 'ProductController' );
+
+        // Gallery
+        Route::resource( '/product/{product_id}/gallery', 'GalleryController' );
     } );
 } );

@@ -110,8 +110,10 @@ class ProductController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( Product $product, Brand $brand ) {
-        return view( 'admin.product.edit', compact( 'product', 'brand' ) );
+    public function edit( Product $product ) {
+        $categories = ProductCategory::all();
+        $brands     = Brand::all();
+        return view( 'admin.product.edit', compact( 'product', 'brands', 'categories' ) );
     }
 
     /**

@@ -15,7 +15,28 @@
                         class="btn btn-outline-warning float-right btn-sm">{{ __('View All') }}</a>
                 </div>
                 <div class="card-body">
-                   
+
+                    <div class="form-group">
+                        <label for="product_category_id">Select Category</label>
+                        <select class="form-control" name="product_category_id" id="product_category_id">
+                            <option value="">Select Category</option>
+                            @foreach($categories as $c)
+                                <option value="{{ $c->id}}" @if($product->product_category_id == $c->id) selected @endif>{{ $c->name }}</option>
+                            @endforeach
+                        </select>
+                   </div>
+
+                    <div class="form-group">
+                        <label for="brand_id">Select Brand</label>
+                        <select class="form-control" name="brand_id" id="brand_id">
+                            <option value="">Select brand</option>
+                            @foreach($brands as $brand)
+                                <option value="{{ $brand->id}}" @if($product->brand_id == $brand->id) selected @endif>{{ $brand->name }}</option>
+                            @endforeach
+                        </select>
+                   </div>
+
+
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input class="form-control" type="title" name="title" id="title" value="{{$product->title}}">
@@ -48,6 +69,35 @@
                     <div class="form-group">
                         <label for="sku">Sku</label>
                         <input class="form-control" type="text" name="sku" id="sku" value="{{$product->sku}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Vitual</label>
+                        <select name="status" id="status" class="form-control">
+                            <option {{ $product->virtual == 1 ? 'selected="selected"' : '' }} value="1">Yes
+                            </option>
+                            <option {{ $product->virtual == 0 ? 'selected="selected"' : '' }} value="0">No
+                            </option>
+                        </select>
+                    </div>
+
+                    @if($product->thumbnail)
+                        <div class="form-group">
+                            <img src="{{ asset($product->thumbnail)}}" alt="{{ $product->name}}">
+                        </div>
+                    @endif
+
+                    <div class="form-group">
+                        <label for="exampleInputFile">Thumbnail</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" name="thumbnail">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="">Upload</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
