@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admin\Gallery;
 use Illuminate\Http\Request;
+use App\Models\Admin\Gallery;
+use App\Models\Admin\Product;
+use App\Http\Controllers\Controller;
 
 class GalleryController extends Controller {
     /**
@@ -63,7 +64,14 @@ class GalleryController extends Controller {
 
             $gallery->images     = json_encode( $galleryImages );
             $gallery->product_id = $product_id;
-            $gallery->save();
+            
+            if ( $gallery->save() ) {
+                $product = Product::whereId( $product_id )->first();
+                if ( $product ) {
+                    $product->gallery_id = $gallery->id;
+                    $product->save();
+                }
+            }
 
             return redirect()->back()->with( 'success', 'Images added' );
 
