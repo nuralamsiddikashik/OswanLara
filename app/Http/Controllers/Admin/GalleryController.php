@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Gallery;
 use App\Models\Admin\Product;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class GalleryController extends Controller {
     /**
@@ -23,13 +24,14 @@ class GalleryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create( $product_id ) {
-
-        $gallery   = Gallery::whereProductId( $product_id )->first();
-        $galleries = [];
+        $gallery    = Gallery::whereProductId( $product_id )->first();
+        $gallery_id = '';
+        $galleries  = [];
         if ( $gallery ) {
-            $galleries = json_decode( $gallery->images, true );
+            $galleries  = array_reverse( json_decode( $gallery->images, true ) );
+            $gallery_id = $gallery->id;
         }
-        return view( 'admin.gallery.create', compact( 'product_id', 'galleries' ) );
+        return view( 'admin.gallery.create', compact( 'product_id', 'galleries', 'gallery_id' ) );
     }
 
     /**
@@ -64,7 +66,7 @@ class GalleryController extends Controller {
 
             $gallery->images     = json_encode( $galleryImages );
             $gallery->product_id = $product_id;
-            
+
             if ( $gallery->save() ) {
                 $product = Product::whereId( $product_id )->first();
                 if ( $product ) {
@@ -117,7 +119,16 @@ class GalleryController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id ) {
-        //
+    public function destroy( Request $request, $product_id ) {
+        $image_name    = $request->input( 'image_name' );
+        $gallery       = Gallery::whereProductId( $product_id )->first();
+        $gallery_array = json_decode( $gallery->images, true );
+
+        array_splice( $gallery_array, array_search( $image_name, $gallery_array ), 1 );
+        File::delete( $request->input( 'image_name' ) );
+
+        $gallery->images = json_encode( $gallery_array );
+        $gallery->save();
+        return redirect()->back()->with( 'success', __( 'Image deleted.' ) );
     }
 }

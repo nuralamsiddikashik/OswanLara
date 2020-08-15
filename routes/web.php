@@ -61,5 +61,16 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
 
         // Gallery
         Route::resource( '/product/{product_id}/gallery', 'GalleryController' );
+
+        // Coupon
+
+        Route::resource( 'coupon', 'CouponController' );
+        Route::post( 'coupon/{id}/restore', 'CouponController@restore' )->name( 'coupon.restore' );
+        Route::post( 'pcoupon/{id}/force-delete', 'CouponController@force_delete' )->name( 'coupon.force_delete' );
+        Route::post( 'coupon/bulk-delete', 'CouponController@bulk_delete' )->name( 'coupon.bulk_delete' );
+        Route::post( 'coupon/bulk-force-delete', 'CouponController@bulk_force_delete' )->name( 'coupon.bulk_force_delete' );
+        Route::post( 'coupon/bulk-restore', 'CouponController@bulk_restore' )->name( 'coupon.bulk_restore' );
+        Route::post( 'coupon/bulk-active', 'CouponController@bulk_active' )->name( 'coupon.bulk_active' );
+        Route::post( 'coupon/bulk-inactive', 'CouponController@bulk_inactive' )->name( 'coupon.bulk_inactive' );
     } );
 } );
