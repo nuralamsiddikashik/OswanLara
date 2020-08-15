@@ -16,7 +16,11 @@ class CreateProductsTable extends Migration {
             $table->unsignedBigInteger( 'product_category_id' )->nullable();
             $table->unsignedBigInteger( 'brand_id' )->nullable();
             $table->string( 'title' );
+            $table->string( 'rpm' )->nullable();
             $table->string( 'slug' )->unique();
+            $table->string( 'model' )->nullable();
+            $table->string( 'fuel_type' )->nullable();
+            $table->string( 'cc' )->nullable();
             $table->longText( 'description' )->nullable();
             $table->text( 'short_description' )->nullable();
             $table->float( 'price' )->default( 0 );
