@@ -43,8 +43,8 @@
                             </div>
                             <div class="menu-wrapper text-center">
                                 <button class="menu-toggle">
-                                    <img class="s-open" alt="" src="assets/img/icon-img/menu.png">
-                                    <img class="s-close" alt="" src="assets/img/icon-img/menu-close.png">
+                                    <img class="s-open" alt="" src="{{ asset('assets/frontend')}}/img/icon-img/menu.png">
+                                    <img class="s-close" alt="" src="{{ asset('assets/frontend')}}/img/icon-img/menu-close.png">
                                 </button>
                                 <div class="main-menu">
                                     <nav>
@@ -387,7 +387,7 @@
     <!-- all js here -->
     <script src="{{ asset('assets/frontend/js/vendor/jquery-1.12.0.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/popper.js')}}"></script>
-    <script src="{{ asset('assets/js/frontend/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('assets/frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/isotope.pkgd.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/imagesloaded.pkgd.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/jquery.counterup.min.js')}}"></script>
