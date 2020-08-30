@@ -2,7 +2,7 @@
 
 @section('content')
   @include('frontend.home.slider.slider')
-  @include('frontend.overview.overview')
-  @include('frontend.category.category')
-  @include('frontend.product.product')
+  @include('frontend.home.overview.overview')
+  @include('frontend.home.category.category')
+  @include('frontend.home.product.product')
 @endsection
