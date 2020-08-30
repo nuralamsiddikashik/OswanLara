@@ -73,10 +73,14 @@ class ProductController extends Controller {
         $product->price             = $request->input( 'price' );
         $product->selling_price     = $request->input( 'selling_price' );
 
-        $product->sku     = $request->input( 'sku' );
-        $product->qty     = $request->input( 'qty' );
-        $product->virtual = $request->input( 'virtual' );
-        $product->status  = $request->input( 'status' );
+        $product->sku       = $request->input( 'sku' );
+        $product->qty       = $request->input( 'qty' );
+        $product->virtual   = $request->input( 'virtual' );
+        $product->status    = $request->input( 'status' );
+        $product->rpm       = $request->input( 'rpm' );
+        $product->model     = $request->input( 'model' );
+        $product->fuel_type = $request->input( 'fuel_type' );
+        $product->cc        = $request->input( 'cc' );
 
         if ( $request->has( 'thumbnail' ) ) {
             $thumbnail     = $request->file( 'thumbnail' );
