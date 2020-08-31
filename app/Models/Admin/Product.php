@@ -34,4 +34,7 @@ class Product extends Model {
         return $this->hasOne( Gallery::class );
     }
 
+    public function getFinalPriceAttribute() {
+        return $this->selling_price == null ? $this->price : $this->selling_price;
+    }
 }

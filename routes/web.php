@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::name( 'frontend.' )->namespace( 'Frontend' )->group( function () {
-    Route::get( '/', 'HomeController@index' )->name( 'home' );
+    Route::get( '/', 'HomeController@home' )->name( 'home' );
 } );
 
 Route::namespace ( 'Auth' )->group( function () {
@@ -72,5 +72,12 @@ Route::prefix( 'admin' )->name( 'admin.' )->namespace( 'Admin' )->group( functio
         Route::post( 'coupon/bulk-restore', 'CouponController@bulk_restore' )->name( 'coupon.bulk_restore' );
         Route::post( 'coupon/bulk-active', 'CouponController@bulk_active' )->name( 'coupon.bulk_active' );
         Route::post( 'coupon/bulk-inactive', 'CouponController@bulk_inactive' )->name( 'coupon.bulk_inactive' );
+
+        // Specefic Category Show
+        Route::prefix( 'settings' )->name( 'settings.' )->group( function () {
+            Route::get( 'home-category', 'OptionController@home_category' )->name( 'home.category' );
+            Route::post( 'home-category', 'OptionController@home_category_store' )->name( 'home.category.store' );
+        } );
+
     } );
 } );

@@ -392,7 +392,6 @@
     <script src="{{ asset('assets/frontend/js/imagesloaded.pkgd.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/jquery.counterup.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/waypoints.min.js')}}"></script>
-    <script src="{{ asset('assets/frontend/js/ajax-mail.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/owl.carousel.min.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/plugins.js')}}"></script>
     <script src="{{ asset('assets/frontend/js/main.js')}}"></script>

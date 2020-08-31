@@ -3,11 +3,11 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Admin\Brand;
-use Illuminate\Support\Str;
 use App\Models\Admin\Product;
+use App\Models\Admin\ProductCategory;
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\File;
-use App\Models\Admin\ProductCategory;
+use Illuminate\Support\Str;
 
 $factory->define( Product::class, function ( Faker $faker ) {
     $path = public_path( 'uploads/images/products' );
@@ -28,6 +28,10 @@ $factory->define( Product::class, function ( Faker $faker ) {
         'price'               => $price = $faker->randomFloat( 2, 10, 100 ),
         'selling_price'       => $price - rand( 0, 5 ),
         'sku'                 => rand( 10, 99 ) . $randomLetters . rand( 10, 99 ),
+        'rpm'                 => 7200,
+        'cc'                  => 500,
+        'model'               => 2018,
+        'fuel_type'           => 'Octen',
         'qty'                 => rand( 15, 100 ),
         'virtual'             => false,
         'thumbnail'           => $faker->image( 'public/uploads/images/products', 600, 600, 'transport', false ),
