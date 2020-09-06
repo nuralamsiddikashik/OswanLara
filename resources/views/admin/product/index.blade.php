@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('meta-title', __('Products'))
 
 @section('content')

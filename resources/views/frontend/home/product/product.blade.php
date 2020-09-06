@@ -23,7 +23,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="product-wrapper">
                             <div class="product-img">
-                                <a href="product-details.html">
+                                <a href="{{ route('frontend.single.product',$product->slug)}}">
                                     <img src="{{ asset('assets/frontend')}}/img/product/product-2.jpg" alt="">
                                 </a>
                                 <div class="product-item-dec">
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="product-content-wrapper">
                                     <div class="product-title-spreed">
-                                        <h4><a href="product-details.html">{{ $product->title }}</a></h4>
+                                        <h4><a href="{{ route('frontend.single.product',$product->slug)}}">{{ $product->title }}</a></h4>
                                         <span>{{ $product->rpm}}</span>
                                     </div>
                                     <div class="product-price">

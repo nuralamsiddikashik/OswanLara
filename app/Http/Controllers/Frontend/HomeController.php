@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
 
 class HomeController extends Controller {
@@ -14,4 +15,8 @@ class HomeController extends Controller {
         return view( 'frontend.home.index', compact( 'slideProductCategories' ) );
     }
 
+    public function single_product( Product $product ) {
+        $relatedProducts = $product->product_category->products->except( $product->id );
+        return view( 'frontend.single-product.single', compact( 'product','relatedProducts' ) );
+    }
 }

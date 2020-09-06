@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class OptionController extends Controller {
 
     public function home_category() {
+        
         $productCategories = ProductCategory::whereStatus( 1 )->latest()->get();
         $selected          = [];
         if ( self::get_option( 'home_products_by_categories', true ) ) {
